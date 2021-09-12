@@ -12,7 +12,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository Items", "Reposit
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicLibraryCatalogBuilder", "MusicLibraryCatalogBuilder\MusicLibraryCatalogBuilder.csproj", "{16F660C7-FF96-4D94-9EBF-57369AEBBA9A}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16F660C7-FF96-4D94-9EBF-57369AEBBA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16F660C7-FF96-4D94-9EBF-57369AEBBA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16F660C7-FF96-4D94-9EBF-57369AEBBA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16F660C7-FF96-4D94-9EBF-57369AEBBA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
