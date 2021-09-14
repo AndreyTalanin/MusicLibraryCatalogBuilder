@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 
 using MusicLibraryCatalogBuilder.Configuration;
 using MusicLibraryCatalogBuilder.Services;
+using MusicLibraryCatalogBuilder.Services.Hosted;
 using MusicLibraryCatalogBuilder.Services.Interfaces;
 
 namespace MusicLibraryCatalogBuilder
@@ -25,6 +26,8 @@ namespace MusicLibraryCatalogBuilder
             services.AddSingleton<IAlbumDirectoryProcessor, AlbumDirectoryProcessor>();
             services.AddSingleton<ICatalogInfoProvider, CatalogInfoProvider>();
             services.AddSingleton<IHtmlDocumentBuilder, HtmlDocumentBuilder>();
+
+            services.AddHostedService<MusicLibraryProcessor>();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
