@@ -13,5 +13,9 @@ namespace MusicLibraryCatalogBuilder.Configuration
         public string ArtistDirectoryTemplate { get; set; } = string.Empty;
 
         public string AlbumDirectoryTemplate { get; set; } = string.Empty;
+
+        public string OutputFile { get; set; } = string.Empty;
+
+        public bool WriteIndented { get; set; } = false;
     }
 }
