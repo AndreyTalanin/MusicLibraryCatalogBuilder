@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using MusicLibraryCatalogBuilder.Configuration;
+using MusicLibraryCatalogBuilder.Services;
+using MusicLibraryCatalogBuilder.Services.Interfaces;
 
 namespace MusicLibraryCatalogBuilder
 {
@@ -18,6 +20,11 @@ namespace MusicLibraryCatalogBuilder
         private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
             services.Configure<MusicLibraryConfiguration>(context.Configuration.GetSection(nameof(MusicLibraryConfiguration)));
+
+            services.AddSingleton<IArtistDirectoryProcessor, ArtistDirectoryProcessor>();
+            services.AddSingleton<IAlbumDirectoryProcessor, AlbumDirectoryProcessor>();
+            services.AddSingleton<ICatalogInfoProvider, CatalogInfoProvider>();
+            services.AddSingleton<IHtmlDocumentBuilder, HtmlDocumentBuilder>();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
