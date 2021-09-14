@@ -58,22 +58,30 @@ namespace MusicLibraryCatalogBuilder.Services.Hosted
             HashSet<string> excludedDirectories = m_configuration.ExcludedDirectories
                 .Select(directory => new DirectoryInfo(Path.Combine(m_configuration.RootDirectory, directory)).FullName).ToHashSet();
 
+            m_logger.LogDebug("Included directories:");
+            foreach (string includedDirectory in includedDirectories)
+                m_logger.LogDebug(includedDirectory);
+
+            m_logger.LogDebug("Excluded directories:");
+            foreach (string excludedDirectory in excludedDirectories)
+                m_logger.LogDebug(excludedDirectory);
+
             void ProcessDirectory(DirectoryInfo directoryInfo, List<ArtistDirectoryInfo> artistDirectoryInfos, bool skipExcludedDirectory)
             {
-                m_logger.LogInformation($"Processing the '{directoryInfo.Name}' directory.");
+                m_logger.LogDebug($"Processing the '{directoryInfo.FullName}' directory.");
 
                 if (skipExcludedDirectory && includedDirectories.Contains(directoryInfo.FullName))
-                    m_logger.LogInformation("The directory was explicitly included, continuing with processing.");
+                    m_logger.LogDebug("The directory was explicitly included, continuing with processing.");
                 else if (skipExcludedDirectory)
                 {
-                    m_logger.LogInformation("The directory was explicitly excluded, skipping it.");
+                    m_logger.LogDebug("The directory was explicitly excluded, skipping it.");
                     return;
                 }
 
                 if (m_artistDirectoryProcessor.CheckIfArtistDirectory(directoryInfo))
                 {
                     artistDirectoryInfos.Add(m_artistDirectoryProcessor.ParseArtistDirectoryInfo(directoryInfo));
-                    m_logger.LogInformation($"The '{directoryInfo.Name}' directory is an artist directory, adding it to the list.");
+                    m_logger.LogDebug($"The '{directoryInfo.FullName}' directory is an artist directory, adding it to the list.");
                 }
                 else if (m_albumDirectoryProcessor.CheckIfAlbumDirectory(directoryInfo))
                 {
@@ -81,10 +89,10 @@ namespace MusicLibraryCatalogBuilder.Services.Hosted
                     {
                         ArtistDirectoryInfo artistDirectoryInfo = artistDirectoryInfos.Last();
                         artistDirectoryInfo.Albums.Add(m_albumDirectoryProcessor.ParseAlbumDirectoryInfo(directoryInfo));
-                        m_logger.LogInformation($"The '{directoryInfo.Name}' directory is an album directory, adding it to the list of albums.");
+                        m_logger.LogDebug($"The '{directoryInfo.FullName}' directory is an album directory, adding it to the list of albums.");
                     }
                     else
-                        m_logger.LogError($"The '{directoryInfo.Name}' directory is an album directory. Check the directory structure.");
+                        m_logger.LogError($"The '{directoryInfo.FullName}' directory is an album directory. Check the directory structure.");
                 }
 
                 foreach (DirectoryInfo nestedDirectoryInfo in directoryInfo.GetDirectories())
