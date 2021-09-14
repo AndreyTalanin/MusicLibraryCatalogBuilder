@@ -53,8 +53,10 @@ namespace MusicLibraryCatalogBuilder.Services.Hosted
         {
             using IServiceScope serviceScope = m_serviceProvider.CreateScope();
 
-            HashSet<string> includedDirectories = m_configuration.IncludedDirectories.Select(directory => Path.Combine(m_configuration.RootDirectory, directory)).ToHashSet();
-            HashSet<string> excludedDirectories = m_configuration.ExcludedDirectories.Select(directory => Path.Combine(m_configuration.RootDirectory, directory)).ToHashSet();
+            HashSet<string> includedDirectories = m_configuration.IncludedDirectories
+                .Select(directory => new DirectoryInfo(Path.Combine(m_configuration.RootDirectory, directory)).FullName).ToHashSet();
+            HashSet<string> excludedDirectories = m_configuration.ExcludedDirectories
+                .Select(directory => new DirectoryInfo(Path.Combine(m_configuration.RootDirectory, directory)).FullName).ToHashSet();
 
             void ProcessDirectory(DirectoryInfo directoryInfo, List<ArtistDirectoryInfo> artistDirectoryInfos, bool skipExcludedDirectory)
             {
@@ -86,7 +88,7 @@ namespace MusicLibraryCatalogBuilder.Services.Hosted
                 }
 
                 foreach (DirectoryInfo nestedDirectoryInfo in directoryInfo.GetDirectories())
-                    ProcessDirectory(nestedDirectoryInfo, artistDirectoryInfos, excludedDirectories.Contains(nestedDirectoryInfo.FullName));
+                    ProcessDirectory(nestedDirectoryInfo, artistDirectoryInfos, skipExcludedDirectory || excludedDirectories.Contains(nestedDirectoryInfo.FullName));
             }
 
             DirectoryInfo rootDirectoryInfo = new DirectoryInfo(m_configuration.RootDirectory);
