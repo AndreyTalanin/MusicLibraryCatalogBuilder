@@ -124,7 +124,8 @@ namespace MusicLibraryCatalogBuilder.Services
                         };
                     }).Aggregate(new List<XElement>(), (tableData, group) =>
                     {
-                        tableData.Add(group.ArtistRow);
+                        if (group.AlbumRows.Any())
+                            tableData.Add(group.ArtistRow);
                         foreach (XElement albumRow in group.AlbumRows)
                             tableData.Add(albumRow);
                         return tableData;
